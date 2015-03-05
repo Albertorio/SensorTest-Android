@@ -2,6 +2,7 @@ package com.chamas.luis.sensortest;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -38,6 +39,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private TextView ZtextView;
     double mSensorX, mSensorY, mSensorZ;
     private Thread thread;
+    private boolean started = false;
 
 
 
@@ -83,6 +85,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                     OutputStream outToServer = client.getOutputStream();
                     DataOutputStream out = new DataOutputStream(outToServer);
                     out.writeDouble(mSensorX);
+                    Toast.makeText(MainActivity.this, "sensor info sent" , Toast.LENGTH_SHORT).show();
                     client.close();
 
                     while(count < 5){
@@ -161,7 +164,14 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 
     public void send(View view) {
-        thread.start();
+
+        if(!started) {
+//            thread.start();
+            Intent rep = new Intent(this, exampleService.class);
+            rep.putExtra("sensorValue", mSensorX);
+            startService(rep);
+            started = true;
+        }
     }
 
     public void getCont(View view) {
