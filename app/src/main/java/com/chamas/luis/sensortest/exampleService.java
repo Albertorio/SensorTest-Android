@@ -34,7 +34,7 @@ public class exampleService extends Service {
         double mSensorX;
         mSensorX = intent.getExtras().getDouble("sensorValue");
         Toast.makeText(this, "Service started by user", Toast.LENGTH_SHORT).show();
-        startClient(mSensorX);
+        //startClient(mSensorX);
     }
 
     public void startClient(double mSensorX){
